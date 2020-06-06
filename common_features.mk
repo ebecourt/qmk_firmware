@@ -166,6 +166,13 @@ ifeq ($(strip $(LED_MATRIX_ENABLE)), IS31FL3731)
     QUANTUM_LIB_SRC += i2c_master.c
 endif
 
+ifeq ($(strip $(LED_MATRIX_ENABLE)), IS31FL3733)
+    OPT_DEFS += -DIS31FL3733
+    COMMON_VPATH += $(DRIVER_PATH)/issi
+    SRC += is31fl3733-simple.c
+    QUANTUM_LIB_SRC += i2c_master.c
+endif
+
 RGB_MATRIX_ENABLE ?= no
 
 ifneq ($(strip $(RGB_MATRIX_ENABLE)), no)
