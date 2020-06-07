@@ -17,23 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "winghead.h"
 
-#ifdef LED_MATRIX_ENABLE
-    #include "is31fl3733-simple.h"
+#if MONO_BACKLIGHT_ENABLED
 
-/*
-{ KC_ESC,  KC_F2,   KC_F4,  KC_F6, KC_F8,   KC_F10,    KC_F12,  KC_NO,     KC_BRK,  KC_PGDN },
-{ KC_GRV,  KC_2,    KC_4,   KC_6,  KC_8,    KC_O,      KC_EQL,  KC_NO,     KC_PSLS, KC_PMNS },
-{ KC_TAB,  KC_W,    KC_R,   KC_Y,  KC_I,    KC_P,      KC_RBRC, KC_BSLASH, KC_P8,   KC_PPLS },
-{ KC_CAPS, KC_S,    KC_F,   KC_H,  KC_K,    KC_SCOLON, KC_NUHS, KC_NO,     KC_P5,   KC_NO   },
-{ KC_LSFT, KC_Z,    KC_C,   KC_B,  KC_M,    KC_DOT,    KC_RSFT, KC_NO,     KC_P2,   KC_PENT },
-{ KC_LCTL, KC_LALT, KC_NO,  KC_NO, KC_RALT, KC_RCTL,   KC_LEFT, KC_RGHT,   KC_PDOT, KC_NO   },
-{ KC_LGUI, KC_NO,   KC_SPC, KC_NO, KC_RGUI, KC_NO,     KC_DOWN, KC_P0,     KC_NO,   KC_NO   },
-{ KC_NUBS, KC_X,    KC_V,   KC_N,  KC_COMM, KC_SLSH,   KC_UP,   KC_P1,     KC_P3,   KC_NO   },
-{ KC_A,    KC_D,    KC_G,   KC_J,  KC_L,    KC_QUOT,   KC_ENT,  KC_P4,     KC_P6,   KC_NO   },
-{ KC_Q,    KC_E,    KC_T,   KC_U,  KC_0,    KC_LBRC,   KC_NO,   KC_P7,     KC_P9,   KC_NO   },
-{ KC_1,    KC_3,    KC_5,   KC_7,  KC_9,    KC_MINS,   KC_BSPC, KC_NLCK,   KC_PAST, KC_NO   },
-{ KC_F1,   KC_F3,   KC_F5,  KC_F7, KC_F9,   KC_F11,    KC_DEL,  KC_HOME,   KC_PGUP, KC_NO   }
-*/
+#include "wt_mono_backlight.h"
+#include "is31fl3733-simple.h"
 
 const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 /* Refer to IS31 manual for these locations
@@ -154,91 +141,184 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
     {0, I_6},  // KC_HOME
     {0, I_9}  // KC_PGUP
 };
+#endif // MONO_BACKLIGHT_ENABLED
 
-#if 0
-const led_matrix g_leds[LED_DRIVER_LED_COUNT] = {
+#include "via.h"
 
-    /*{row | col << 4}
-      |            LED_ROW_COL(row, col)
-      |             |            modifier
-      |             |            | */
-    {{0|(1<<4)},   {0, 0}, 1},           // k00  KC_GESC
-    {{0|(2<<4)},   {14.45, 0}, 0},       // k01 KC_1
-    {{0|(3<<4)},   {28.9, 0}, 0},        // k02 KC_2
-    {{0|(4<<4)},   {43.35, 0}, 0},       // k03 KC_3
-    {{0|(5<<4)},   {57.8, 0}, 0},        // k04 KC_4
-    {{0|(6<<4)},   {72.25, 0}, 0},       // k05 KC_5
-    {{0|(7<<4)},   {86.7, 0}, 0},        // k06 KC_6
-    {{0|(8<<4)},   {101.2, 0}, 0},       // k07 KC_7
-    {{0|(9<<4)},   {115.6, 0}, 0},       // k50 KC_8
-    {{0|(10<<4)},  {130, 0}, 0},         // k51 KC_9
-    {{0|(11<<4)},  {144.5, 0}, 0},       // k52 KC_0
-    {{0|(12<<4)},  {159, 0}, 0},         // k53 KC_MINS
-    {{0|(13<<4)},  {173.4, 0}, 0},       // k54 KC_EQL
-    {{0|(14<<4)},  {195.1, 0}, 1},       // k55 KC_BSPC
-    {{0|(15<<4)},  {224, 0}, 1},         // k57 KC_PGUP
-
-    {{1|(0<<4)},   {3.6125, 16}, 1},     // k10 KC_TAB
-    {{1|(1<<4)},   {21.675, 16}, 0},     // k11 KC_Q
-    {{1|(2<<4)},   {36.125, 16}, 0},     // k12 KC_W
-    {{1|(3<<4)},   {50.575, 16}, 0},     // k13 KC_E
-    {{1|(4<<4)},   {65.025, 16}, 0},     // k14 KC_R
-    {{1|(5<<4)},   {79.475, 16}, 0},     // k15 KC_T
-    {{1|(6<<4)},   {93.925, 16}, 0},     // k16 KC_Y
-    {{1|(7<<4)},   {108.375, 16}, 0},    // k17 KC_U
-    {{1|(8<<4)},   {122.825, 16}, 0},    // k60 KC_I
-    {{1|(9<<4)},   {137.275, 16}, 0},    // k61 KC_O
-    {{1|(10<<4)},  {151.725, 16}, 0},    // k62 KC_P
-    {{1|(11<<4)},  {166.175, 16}, 0},    // k63 KC_LBRC
-    {{1|(12<<4)},  {180.625, 16}, 0},    // k64 KC_RBRC
-    {{1|(13<<4)},  {198.6875, 16}, 1},   // k65 KC_BSLS
-    {{1|(14<<4)},  {224, 16}, 1},        // k67 KC_PGDN
-
-    {{2|(0<<4)},   {5.41875, 32}, 1},    // k20 KC_CAPS
-    {{2|(1<<4)},   {25.2875, 32}, 0},    // k21 KC_A
-    {{2|(2<<4)},   {39.7375, 32}, 0},    // k22 KC_S
-    {{2|(3<<4)},   {54.1875, 32}, 0},    // k23 KC_D
-    {{2|(4<<4)},   {68.6375, 32}, 0},    // k24 KC_F
-    {{2|(5<<4)},   {83.0875, 32}, 0},    // k25 KC_G
-    {{2|(6<<4)},   {97.5375, 32}, 0},    // k26 KC_H
-    {{2|(7<<4)},   {111.9875, 32}, 0},   // k27 KC_J
-    {{2|(8<<4)},   {126.4375, 32}, 0},   // k70 KC_K
-    {{2|(9<<4)},   {140.8875, 32}, 0},   // k71 KC_L
-    {{2|(10<<4)},  {155.3375, 32}, 0},   // k72 KC_SCLN
-    {{2|(11<<4)},  {169.7875, 32}, 0},   // k73 KC_QUOT
-    {{2|(12<<4)},  {184.2375, 32}, 1},   // k75 KC_ENT
-
-    {{3|(0<<4)},   {16.25625, 48}, 1},   // k30 KC_LSFT
-    {{3|(1<<4)},   {32.5125, 48}, 0},    // k32 KC_Z
-    {{3|(2<<4)},   {46.9625, 48}, 0},    // k33 KC_X
-    {{3|(3<<4)},   {61.4125, 48}, 0},    // k34 KC_C
-    {{3|(4<<4)},   {75.8625, 48}, 0},    // k35 KC_V
-    {{3|(5<<4)},   {90.3125, 48}, 0},    // k36 KC_B
-    {{3|(6<<4)},   {104.7625, 48}, 0},   // k37 KC_N
-    {{3|(7<<4)},   {119.2125, 48}, 0},   // k80 KC_M
-    {{3|(8<<4)},   {133.6625, 48}, 0},   // k81 KC_COMM
-    {{3|(9<<4)},   {148.1125, 48}, 0},   // k82 KC_DOT
-    {{3|(10<<4)},  {162.5625, 48}, 0},   // k83 KC_SLSH
-    {{3|(11<<4)},  {187.85, 48}, 1},     // k85 KC_RSFT
-    {{3|(12<<4)},  {209.525, 48}, 1},    // k86 KC_UP
-
-    {{4|(0<<4)},   {9.03125, 64}, 1},    // k40 KC_LCTL
-    {{4|(1<<4)},   {27.09375, 64}, 1},   // k41 KC_LGUI
-    {{4|(2<<4)},   {45.15625, 64}, 1},   // k42 KC_LALT
-    {{4|(3<<4)},   {59.45, 64}, 1},      // Unassociated between LALT and SPACE_2.75
-    {{4|(4<<4)},   {73.9, 64}, 1},       // k45 KC_SPC SPACE_2.75
-    {{4|(5<<4)},   {88.35, 64}, 1},      // k45 KC_SPC SPACE_6.25
-    {{4|(6<<4)},   {102.8, 64}, 1},      // k46 KC_SPC SPACE_2.25
-    {{4|(7<<4)},   {117.40625, 64}, 1},  // Unassociated between SPACE_2.25 and SPACE_2.75
-    {{4|(8<<4)},   {135.46875, 64}, 1},  // k90 KC_RGUI
-    {{4|(9<<4)},   {153.53125, 64}, 1},  // k92 KC_RALT
-    {{4|(10<<4)},  {167.98125, 64}, 1},  // k93 MO(_FL)
-    {{4|(11<<4)},  {186.04375, 64}, 1},  // k94 KC_RCTL
-    {{4|(12<<4)},  {195.075, 64}, 1},    // k95 KC_LEFT
-    {{4|(13<<4)},  {209.525, 64}, 1},    // k96 KC_DOWN
-    {{4|(14<<4)},  {224, 64}, 1}         // k97 KC_RGHT
-};
+#ifndef VIA_ENABLE
+#include "tmk_core/common/eeprom.h"
+#include "version.h" // for QMK_BUILDDATE used in EEPROM magic
 #endif
 
-#endif
+// Called from via_init() if VIA_ENABLE
+// Called from matrix_init_kb() if not VIA_ENABLE
+void via_init_kb(void)
+{
+    // If the EEPROM has the magic, the data is good.
+    // OK to load from EEPROM
+    if (via_eeprom_is_valid()) {
+#if MONO_BACKLIGHT_ENABLED
+        backlight_config_load();
+#endif // MONO_BACKLIGHT_ENABLED
+    } else	{
+#if MONO_BACKLIGHT_ENABLED
+        // If the EEPROM has not been saved before, or is out of date,
+        // save the default values to the EEPROM. Default values
+        // come from construction of the backlight_config instance.
+        backlight_config_save();
+#endif // MONO_BACKLIGHT_ENABLED
+
+        // DO NOT set EEPROM valid here, let caller do this
+    }
+
+#if MONO_BACKLIGHT_ENABLED
+    // Initialize LED drivers for backlight.
+    backlight_init_drivers();
+
+    backlight_timer_init();
+    backlight_timer_enable();
+#endif //MONO_BACKLIGHT_ENABLED
+}
+
+void matrix_init_kb(void)
+{
+    // If VIA is disabled, we still need to load backlight settings.
+    // Call via_init_kb() the same way as via_init(), with setting
+    // EEPROM valid afterwards.
+#ifndef VIA_ENABLE
+    via_init_kb();
+    via_eeprom_set_valid(true);
+#endif // VIA_ENABLE
+
+    matrix_init_user();
+}
+
+void matrix_scan_kb(void)
+{
+#if MONO_BACKLIGHT_ENABLED
+    // This only updates the LED driver buffers if something has changed.
+    backlight_update_pwm_buffers();
+#endif // MONO_BACKLIGHT_ENABLED
+    matrix_scan_user();
+}
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record)
+{
+#if MONO_BACKLIGHT_ENABLED
+    process_record_backlight(keycode, record);
+#endif // MONO_BACKLIGHT_ENABLED
+
+    return process_record_user(keycode, record);
+}
+
+void led_set_kb(uint8_t usb_led)
+{
+#if MONO_BACKLIGHT_ENABLED
+    backlight_set_indicator_state(usb_led);
+#endif // MONO_BACKLIGHT_ENABLED
+    led_set_user(usb_led);
+}
+
+void suspend_power_down_kb(void)
+{
+#if MONO_BACKLIGHT_ENABLED
+    backlight_set_suspend_state(true);
+#endif // MONO_BACKLIGHT_ENABLED
+}
+
+void suspend_wakeup_init_kb(void)
+{
+#if MONO_BACKLIGHT_ENABLED
+    backlight_set_suspend_state(false);
+#endif // MONO_BACKLIGHT_ENABLED
+}
+
+// Moving this to the bottom of this source file is a workaround
+// for an intermittent compiler error for Atmel compiler.
+#ifdef VIA_ENABLE
+void raw_hid_receive_kb(uint8_t *data, uint8_t length) {
+    uint8_t *command_id = &(data[0]);
+    uint8_t *command_data = &(data[1]);
+    switch ( *command_id )
+    {
+#if MONO_BACKLIGHT_ENABLED
+        case id_lighting_set_value:
+        {
+            backlight_config_set_value(command_data);
+            break;
+        }
+        case id_lighting_get_value:
+        {
+            backlight_config_get_value(command_data);
+            break;
+        }
+        case id_lighting_save:
+        {
+            backlight_config_save();
+            break;
+        }
+#endif // MONO_BACKLIGHT_ENABLED
+        default:
+        {
+            // Unhandled message.
+            *command_id = id_unhandled;
+            *command_data = *command_data; // force use of variable
+            break;
+        }
+    }
+    // DO NOT call raw_hid_send(data,length) here, let caller do this
+}
+#endif // VIA_ENABLE
+
+//
+// In the case of VIA being disabled, we still need to check if
+// keyboard level EEPROM memory is valid before loading.
+// Thus these are copies of the same functions in VIA, since
+// the backlight settings reuse VIA's EEPROM magic/version,
+// and the ones in via.c won't be compiled in.
+//
+// Yes, this is sub-optimal, and is only here for completeness
+// (i.e. catering to the 1% of people that want wilba.tech LED bling
+// AND want persistent settings BUT DON'T want to use dynamic keymaps/VIA).
+//
+#ifndef VIA_ENABLE
+
+bool via_eeprom_is_valid(void)
+{
+    char *p = QMK_BUILDDATE; // e.g. "2019-11-05-11:29:54"
+    uint8_t magic0 = ( ( p[2] & 0x0F ) << 4 ) | ( p[3]  & 0x0F );
+    uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
+    uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
+
+    return (eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0 ) == magic0 &&
+            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1 ) == magic1 &&
+            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2 ) == magic2 );
+}
+
+void via_eeprom_set_valid(bool valid)
+{
+    char *p = QMK_BUILDDATE; // e.g. "2019-11-05-11:29:54"
+    uint8_t magic0 = ( ( p[2] & 0x0F ) << 4 ) | ( p[3]  & 0x0F );
+    uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
+    uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
+
+    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0, valid ? magic0 : 0xFF);
+    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1, valid ? magic1 : 0xFF);
+    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2, valid ? magic2 : 0xFF);
+}
+
+void via_eeprom_reset(void)
+{
+    // Set the VIA specific EEPROM state as invalid.
+    via_eeprom_set_valid(false);
+    // Set the TMK/QMK EEPROM state as invalid.
+    eeconfig_disable();
+}
+
+#endif // VIA_ENABLE
+
+
+
+
+
 
