@@ -68,7 +68,7 @@ void backlight_init_drivers(void)
 	for ( uint8_t index = 0; index < LED_DRIVER_LED_COUNT; index++ )	{
 		IS31FL3733_set_led_control_register( index, true );
 	}
-	IS31FL3733_set_led_control_register( LED_DRIVER_ADDR_1, 0x00 );
+	IS31FL3733_update_led_control_registers( LED_DRIVER_ADDR_1, 0x00 );
 }
 
 void backlight_set_key_hit(uint8_t row, uint8_t column)
