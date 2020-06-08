@@ -15,8 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "winghead.h"
-
 #if MONO_BACKLIGHT_ENABLED
 
 #include "wt_mono_backlight.h"
@@ -152,6 +150,7 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 
 // Called from via_init() if VIA_ENABLE
 // Called from matrix_init_kb() if not VIA_ENABLE
+
 void via_init_kb(void)
 {
     // If the EEPROM has the magic, the data is good.
@@ -192,6 +191,8 @@ void matrix_init_kb(void)
 
     matrix_init_user();
 }
+
+extern uint32_t g_tick;
 
 void matrix_scan_kb(void)
 {
