@@ -4,7 +4,7 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = {
-    { KC_ESC,  KC_F2,   KC_F4,  KC_F6, KC_F8,   KC_F10,    KC_F12,  KC_NO,     KC_BRK,  KC_PGDN },
+    { KC_ESC,  KC_F2,   KC_F4,  KC_F6, KC_F8,   KC_F10,    KC_F12,  KC_NO,     KC_END,  KC_PGDN },
     { KC_GRV,  KC_2,    KC_4,   KC_6,  KC_8,    KC_O,      KC_EQL,  KC_NO,     KC_PSLS, KC_PMNS },
     { KC_TAB,  KC_W,    KC_R,   KC_Y,  KC_I,    KC_P,      KC_RBRC, KC_BSLASH, KC_P8,   KC_PPLS },
     { KC_CAPS, KC_S,    KC_F,   KC_H,  KC_K,    KC_SCOLON, KC_NUHS, KC_NO,     KC_P5,   KC_NO   },
