@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "wt_mono_backlight.h"
 #include "is31fl3733-simple.h"
+#include <print.h>
 
 const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 /* Refer to IS31 manual for these locations
@@ -194,6 +195,20 @@ void matrix_init_kb(void)
 
 extern uint32_t g_tick;
 
+extern bool g_ret_IS31FL3733_init;
+extern bool g_ret_IS31FL3733_update_led_control_registers;
+
+extern bool g_initUnlock0;
+extern bool g_initSelectPG0;
+extern bool g_initTurnOffLeds;
+extern bool g_initUnlock1;
+extern bool g_initSelectPG1;
+extern bool g_initTurnOnLeds;
+extern bool g_initUnlock2;
+extern bool g_initSelectPG3;
+extern bool g_initSetGlogalCurrent;
+extern bool g_initDisableSoftwareShutDown;
+
 void matrix_scan_kb(void)
 {
 #if MONO_BACKLIGHT_ENABLED
@@ -201,6 +216,41 @@ void matrix_scan_kb(void)
     backlight_update_pwm_buffers();
 #endif // MONO_BACKLIGHT_ENABLED
     matrix_scan_user();
+
+    if (g_tick == 40)
+    {
+        if (g_ret_IS31FL3733_init)
+            print("IS31FL3733_init ok\n");
+        else
+        {
+            print("IS31FL3733_init error\n");
+            if (!g_initUnlock0)
+                print("    g_initUnlock0 error\n");
+            if (!g_initSelectPG0)
+                print("    g_initSelectPG0 error\n");
+            if (!g_initTurnOffLeds)
+                print("    g_initTurnOffLeds error\n");
+            if (!g_initUnlock1)
+                print("    g_initUnlock1 error\n");
+            if (!g_initSelectPG1)
+                print("    g_initSelectPG1 error\n");
+            if (!g_initTurnOnLeds)
+                print("    g_initTurnOnLeds error\n");
+            if (!g_initUnlock2)
+                print("    g_initUnlock2 error\n");
+            if (!g_initSelectPG3)
+                print("    g_initSelectPG3 error\n");
+            if (!g_initSetGlogalCurrent)
+                print("    g_initSetGlogalCurrent error\n");
+            if (!g_initDisableSoftwareShutDown)
+                print("    g_initDisableSoftwareShutDown error\n");
+        }
+
+        if (g_ret_IS31FL3733_update_led_control_registers)
+            print("IS31FL3733_update_led_control_registers ok\n");
+        else
+            print("IS31FL3733_update_led_control_registers error\n");
+    }
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record)

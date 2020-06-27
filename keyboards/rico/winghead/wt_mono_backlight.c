@@ -59,16 +59,33 @@ uint32_t g_tick = 0;
 // Ticks since any key was last hit.
 uint32_t g_any_key_hit = 0;
 
+bool g_ret_IS31FL3733_init;
+bool g_ret_IS31FL3733_update_led_control_registers;
+bool g_initUnlock0;
+bool g_initSelectPG0;
+bool g_initTurnOffLeds;
+bool g_initUnlock1;
+bool g_initSelectPG1;
+bool g_initTurnOnLeds;
+bool g_initUnlock2;
+bool g_initSelectPG3;
+bool g_initSetGlogalCurrent;
+bool g_initDisableSoftwareShutDown;
+
+
 void backlight_init_drivers(void)
 {
 	// Initialize I2C
 	i2c_init();
-	IS31FL3733_init( LED_DRIVER_ADDR_1, 0 );
+
+    wait_ms(500);
+
+	g_ret_IS31FL3733_init = IS31FL3733_init( LED_DRIVER_ADDR_1, 0 );
 
 	for ( uint8_t index = 0; index < LED_DRIVER_LED_COUNT; index++ )	{
 		IS31FL3733_set_led_control_register( index, true );
 	}
-	IS31FL3733_update_led_control_registers( LED_DRIVER_ADDR_1, 0x00 );
+	g_ret_IS31FL3733_update_led_control_registers = IS31FL3733_update_led_control_registers( LED_DRIVER_ADDR_1, 0x00 );
 }
 
 void backlight_set_key_hit(uint8_t row, uint8_t column)

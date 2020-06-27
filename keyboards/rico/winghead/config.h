@@ -48,15 +48,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define LED_DRIVER_COUNT    1
 #define LED_DRIVER_LED_COUNT 101
-#define LED_DRIVER_ADDR_1 0b1010000
+//#define LED_DRIVER_ADDR_1 0b1010000
+#define LED_DRIVER_ADDR_1 0x50
 #define BACKLIGHT_LEVELS 6
 
 
 // enable the mono backlight
 #define MONO_BACKLIGHT_ENABLED 1
-
-// enable the RGB indicator for WT75-A
-#define MONO_BACKLIGHT_WT75_A
 
 // disable backlight when USB suspended (PC sleep/hibernate/shutdown)
 #define MONO_BACKLIGHT_DISABLE_WHEN_USB_SUSPENDED 0
