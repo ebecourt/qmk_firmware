@@ -2,7 +2,7 @@
   "name": "Winghead",
   "vendorId": "0xDEAD",
   "productId": "0x1800",
-  "lighting": "wt_mono_backlight",
+  "lighting": "none",
   "matrix": { "rows": 12, "cols": 10 },
   "layouts": {
     "labels": [
